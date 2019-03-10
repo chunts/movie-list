@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
         integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
@@ -38,15 +39,23 @@
     <!-- data-panel -->
     <div class="container mt-5">
 
-        <!--search bar-->
-        <div class="row" id="search-bar">
-            <form class="form-inline">
+        <!--top bar-->
+        <div class="row justify-content-between mb-2" id="search-bar">
+            <!--search bar-->
+            <form class="form-inline d-inline">
                 <label class="sr-only" for="inlineFormInputName2">Name</label>
                 <input type="text" class="form-control mb-2 mr-sm-2" id="search" placeholder="search name ...">
                 <button type="submit" class="btn btn-primary mb-2" id="submit-search">Search</button>
             </form>
+
+            <!-- list-card cutover -->
+            <div class="form-inline" id="cutover">
+                <i class="fa fa-th hover-color-change mx-2 mr-2" id="cut-card" aria-hidden="true"></i>
+                <i class="fa fa-bars mx-2" id="cut-list" aria-hidden="true"></i>
+            </div>
         </div>
 
+        <!-- movie list data show -->
         <div class="row" id="data-panel">
             <!-- print movie list here -->
         </div>

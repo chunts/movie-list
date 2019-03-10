@@ -6,14 +6,24 @@
   const POSTER_URL = BASE_URL + '/posters/'
   const data = []
 
-  const dataPanel = document.getElementById('data-panel')
-
+  //search
   const searchBtn = document.getElementById('submit-search')
   const searchInput = document.getElementById('search')
 
+  //pagination
   const pagination = document.getElementById('pagination')
   const ITEM_PER_PAGE = 12
   let paginationData = []
+
+  //cutover
+  const cutover = document.getElementById('cutover')
+  //判斷切換模式的 Boolean
+  let isListMode = false
+  //頁數預設在第一頁
+  let page = 1
+
+  const dataPanel = document.getElementById('data-panel')
+
 
   axios.get(INDEX_URL).then((response) => {
     data.push(...response.data.results)
@@ -36,27 +46,51 @@
   //呈現電影列表
   function displayDataList(data) {
     let htmlContent = ''
-    data.forEach(function (item, index) {
-      htmlContent += `
-            <div class="col-sm-3">
-              <div class="card mb-2">
-                <img class="card-img-top " src="${POSTER_URL}${item.image}" alt="Card image cap">
-                
-                <div class="card-body movie-item-body">
-                  <h6 class="card-title">${item.title}</h5>
-                </div>
 
-                <!-- "More" button -->
-                <div class="card-footer">
-                  <button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
-                  <!-- favorite button --> 
-                  <button class="btn btn-info btn-add-favorite" data-id="${item.id}">+</button>
+    if (!isListMode) {
+      console.log(isListMode)
+      data.forEach(function (item, index) {
+        htmlContent += `
+              <div class="col-sm-3">
+                <div class="card mb-2">
+                  <img class="card-img-top " src="${POSTER_URL}${item.image}" alt="Card image cap">
+                  
+                  <div class="card-body movie-item-body">
+                    <h6 class="card-title">${item.title}</h5>
+                  </div>
+  
+                  <!-- "More" button -->
+                  <div class="card-footer">
+                    <button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
+                    <!-- favorite button --> 
+                    <button class="btn btn-info btn-add-favorite" data-id="${item.id}">+</button>
+                  </div>
+  
                 </div>
-
               </div>
-            </div>
-          `
-    })
+            `
+      })
+    } else if (isListMode) {
+      console.log(isListMode)
+      data.forEach(function (item, index) {
+        htmlContent += `
+              <div class="container">
+                <div class="row size">
+                  <div class="col-8">
+                    <h5>${item.title}</h5>
+                  </div>
+                  <div class="col-4 justify-content-between">
+                    <button class="btn btn-primary btn-show-movie mt-1 mb-1 mr-2" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
+                    <!-- favorite button --> 
+                    <button class = "btn btn-info btn-add-favorite mt-1 mb-1" data-id ="${item.id}" > + </button>
+                  </div>
+                </div>
+              </div>
+            `
+      })
+    }
+
+
     dataPanel.innerHTML = htmlContent
   }
 
@@ -136,12 +170,33 @@
     pagination.innerHTML = pageItemContent
   }
 
-  function getPageData (pageNum, data) {
+  function getPageData(pageNum, data) {
     paginationData = data || paginationData
     let offset = (pageNum - 1) * ITEM_PER_PAGE
     let pageData = paginationData.slice(offset, offset + ITEM_PER_PAGE)
     displayDataList(pageData)
   }
+
+  //cutover list or card page
+  cutover.addEventListener('click', function (event) {
+    if (event.target.matches('#cut-card')) {
+      console.log('cut-card')
+      isListMode = false
+    } else if (event.target.matches('#cut-list')) {
+      console.log('cut-list')
+      isListMode = true
+    }
+
+    getPageData(page)
+  })
+
+  pagination.addEventListener('click', event => {
+    console.log(event.target.dataset.page)
+    page = event.target.dataset.page  //保留當前頁面
+    if (event.target.tagName === 'A') {
+      getPageData(event.target.dataset.page)
+    }
+  })
 
 
 })()  
