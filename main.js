@@ -79,7 +79,7 @@
                   <div class="col-8">
                     <h5>${item.title}</h5>
                   </div>
-                  <div class="col-4 justify-content-between">
+                  <div class="col-4" id=">
                     <button class="btn btn-primary btn-show-movie mt-1 mb-1 mr-2" data-toggle="modal" data-target="#show-movie-modal" data-id="${item.id}">More</button>
                     <!-- favorite button --> 
                     <button class = "btn btn-info btn-add-favorite mt-1 mb-1" data-id ="${item.id}" > + </button>
@@ -189,14 +189,5 @@
 
     getPageData(page)
   })
-
-  pagination.addEventListener('click', event => {
-    console.log(event.target.dataset.page)
-    page = event.target.dataset.page  //保留當前頁面
-    if (event.target.tagName === 'A') {
-      getPageData(event.target.dataset.page)
-    }
-  })
-
 
 })()  
